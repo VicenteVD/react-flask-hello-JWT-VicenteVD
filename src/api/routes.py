@@ -18,7 +18,7 @@ def register():
     username = (data.get("username") or "").strip()
     email = (data.get("email") or "").strip().lower()
     password = (data.get("password") or "")
-
+    
     if not all([name, username, email, password]):
         return jsonify({"msg": "Todos los campos son obligatorios"}), 400
 
@@ -31,8 +31,8 @@ def register():
         db.session.add(user)
         db.session.commit()
     except Exception as e:
-        db.session.rollback()
-        # 👇 Mientras desarrollas, exponemos el detalle para ver el error real
+        db.session.rollback()       
+        print("error", e) 
         return jsonify({"msg": "Error creando usuario", "detail": str(e)}), 500
 
     token = create_access_token(identity=user.id)
@@ -49,7 +49,7 @@ def login():
     if not user or not user.check_password(password):
         return jsonify({"msg": "Credenciales incorrectas"}), 401
 
-    token = create_access_token(identity=user.id)
+    token = create_access_token(identity=str(user.id))
     return jsonify({"user": user.to_dict(include_favorites=True), "access_token": token}), 200
 
 

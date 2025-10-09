@@ -16,7 +16,7 @@ class User(db.Model):
     name = db.Column(db.String(120), nullable=False)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    password_hash = db.Column(db.String(128), nullable=False)
+    password_hash = db.Column(db.String(250), nullable=False)
 
     # Relación con los platos favoritos
     favorites = db.relationship("Favorite", back_populates="user", cascade="all, delete-orphan")
@@ -35,8 +35,7 @@ class User(db.Model):
             "id": self.id,
             "name": self.name,
             "username": self.username,
-            "email": self.email,
-            "password": self.password_hash
+            "email": self.email
         }
 
     def to_dict(self, include_favorites=False):

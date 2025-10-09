@@ -11,7 +11,7 @@ export default function Profile() {
 
   useEffect(() => {
     const fetchMe = async () => {
-      const res = await fetch(`${BASE}/api/me`, {
+      const res = await fetch(`${BASE}api/me`, {
         headers: { Authorization: `Bearer ${state.token}` },
       });
       if (!res.ok) return;
@@ -26,7 +26,7 @@ export default function Profile() {
     try {
       const payload = { name: form.name, username: form.username, email: form.email };
       if (form.password) payload.password = form.password;
-      const res = await fetch(`${BASE}/api/user/update`, {
+      const res = await fetch(`${BASE}api/user/update`, {
         method: "PUT",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${state.token}` },
         body: JSON.stringify(payload),

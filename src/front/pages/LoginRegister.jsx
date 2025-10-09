@@ -39,7 +39,7 @@ export default function LoginRegister() {
         ? { username: form.username, password: form.password }
         : { name: form.name, username: form.username, email: form.email, password: form.password };
 
-      const res = await fetch(`https://ominous-space-giggle-4j6r5xvpr5grcqp4j-3001.app.github.dev/${path}`, {
+      const res = await fetch(`${BASE}${path}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

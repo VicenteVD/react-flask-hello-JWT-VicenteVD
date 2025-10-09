@@ -30,34 +30,35 @@ export function StoreProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   // Al cargar (o cuando cambie token), traemos /api/me
-  useEffect(() => {
-    const fetchMe = async () => {
-      if (!state.token) {
-        dispatch({ type: "SET_USER", payload: null });
-        return;
-      }
-      try {
-        dispatch({ type: "LOADING_USER", payload: true });
-        const res = await fetch(`${BASE}/api/me`, {
-          headers: { Authorization: `Bearer ${state.token}` },
-        });
-        if (!res.ok) throw new Error("No autorizado");
-        const data = await res.json();
-        dispatch({ type: "SET_USER", payload: data });
-      } catch (e) {
-        // token inválido
-        dispatch({ type: "LOGOUT" });
-        localStorage.removeItem("token");
-      } finally {
-        dispatch({ type: "LOADING_USER", payload: false });
-      }
-    };
-    fetchMe();
-  }, [state.token]);
+  // useEffect(() => {
+  //   const fetchMe = async () => {
+  //     if (!state.token) {
+  //       dispatch({ type: "SET_USER", payload: null });
+  //       return;
+  //     }
+  //     try {
+  //       dispatch({ type: "LOADING_USER", payload: true });
+  //       const res = await fetch(`${BASE}/api/me`, {
+  //         headers: { Authorization: `Bearer ${state.token}` },
+  //       });
+  //       if (!res.ok) throw new Error("No autorizado");
+  //       const data = await res.json();
+  //       dispatch({ type: "SET_USER", payload: data });
+  //     } catch (e) {
+  //       // token inválido
+  //       dispatch({ type: "LOGOUT" });
+  //       // localStorage.removeItem("token");
+  //     } finally {
+  //       dispatch({ type: "LOADING_USER", payload: false });
+  //     }
+  //   };
+  //   fetchMe();
+  // }, [state.token]);
 
   // Acciones de auth
   const actions = {
     loginSuccess: (data) => {
+      console.log("data", data);
       localStorage.setItem("token", data.access_token);
       dispatch({ type: "LOGIN_SUCCESS", payload: { token: data.access_token, user: data.user } });
     },
